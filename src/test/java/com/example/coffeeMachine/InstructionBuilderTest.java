@@ -25,7 +25,8 @@ public class InstructionBuilderTest {
         CustomerOrder customerOrder = new CustomerOrder(
                 DrinkTypeEnum.COFFEE,
                 0,
-                DrinkTypeEnum.COFFEE.getPrice());
+                DrinkTypeEnum.COFFEE.getPrice(),
+                false);
 
         String buildInstructions = instructionBuilder.buildBeverageInstructionForDrinkMaker(customerOrder);
 
@@ -37,7 +38,8 @@ public class InstructionBuilderTest {
         CustomerOrder customerOrder = new CustomerOrder(
                 DrinkTypeEnum.TEA,
                 2,
-                DrinkTypeEnum.TEA.getPrice());
+                DrinkTypeEnum.TEA.getPrice(),
+                false);
 
         String buildInstructions = instructionBuilder.buildBeverageInstructionForDrinkMaker(customerOrder);
 
@@ -52,7 +54,8 @@ public class InstructionBuilderTest {
         CustomerOrder customerOrder = new CustomerOrder(
                 DrinkTypeEnum.TEA,
                 2,
-                providedAmountOfMoney);
+                providedAmountOfMoney,
+                false);
 
         String buildInstructions = instructionBuilder.buildBeverageInstructionForDrinkMaker(customerOrder);
 
@@ -61,5 +64,18 @@ public class InstructionBuilderTest {
                 .concat(" € is missing");
 
         assertThat(buildInstructions).isEqualTo(expectedAlertMessage);
+    }
+
+    @Test
+    public void should_build_proper_instruction_for_extra_hot_drink() {
+        CustomerOrder customerOrder = new CustomerOrder(
+                DrinkTypeEnum.COFFEE,
+                2,
+                DrinkTypeEnum.COFFEE.getPrice(),
+                true);
+
+        String buildInstructions = instructionBuilder.buildBeverageInstructionForDrinkMaker(customerOrder);
+
+        assertThat(buildInstructions).isEqualTo("Ch:2:0");
     }
 }

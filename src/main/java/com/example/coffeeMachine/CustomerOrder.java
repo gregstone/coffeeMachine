@@ -3,11 +3,13 @@ public class CustomerOrder {
     private DrinkTypeEnum drinkType;
     private int numberOfSugar = 0;
     private Double givenMoney;
+    private Boolean isExtraHotDrink;
 
-    public CustomerOrder(DrinkTypeEnum drinkType, int numberOfSugar, Double givenMoney) {
+    public CustomerOrder(DrinkTypeEnum drinkType, int numberOfSugar, Double givenMoney, Boolean extraHotDrink) {
         this.drinkType = drinkType;
         this.numberOfSugar = numberOfSugar;
         this.givenMoney = givenMoney;
+        this.isExtraHotDrink = extraHotDrink;
     }
 
     public DrinkTypeEnum getDrinkType() {
@@ -20,5 +22,9 @@ public class CustomerOrder {
 
     public Double getGivenMoney() {
         return givenMoney;
+    }
+
+    public Boolean getIsExtraHotDrink() {
+        return isExtraHotDrink;
     }
 }

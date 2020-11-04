@@ -16,7 +16,10 @@ public class InstructionBuilder {
         Double drinkPrice = customerOrder.getDrinkType().getPrice();
 
         if (customerGivenMoneyAmount >= drinkPrice) {
-            String drinkInstruction = customerOrder.getDrinkType().getCode();
+            String drinkInstruction = buildDrinkInstruction(
+                    customerOrder.getDrinkType(),
+                    customerOrder.getIsExtraHotDrink());
+
             String sugarInstruction = buildSugarInstruction(customerOrder.getNumberOfSugar());
 
             beverageInstruction = drinkInstruction + sugarInstruction;
@@ -31,6 +34,10 @@ public class InstructionBuilder {
 
         return alertMessage;
 
+    }
+
+    private String buildDrinkInstruction(DrinkTypeEnum drinkType, Boolean isExtraHot) {
+        return drinkType.getCode().concat(isExtraHot ? "h": "");
     }
 
     private String buildSugarInstruction(Integer numberOfSugar) {
