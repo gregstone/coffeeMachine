@@ -21,8 +21,11 @@ public class InstructionBuilderTest {
     }
 
     @Test
-    public void should_build_proper_instruction_for_buildMaker() {
-        CustomerOrder customerOrder = new CustomerOrder(DrinkTypeEnum.COFFEE, 0);
+    public void should_build_proper_instruction_without_sugar_stick() {
+        CustomerOrder customerOrder = new CustomerOrder(
+                DrinkTypeEnum.COFFEE,
+                0,
+                DrinkTypeEnum.COFFEE.getPrice());
 
         String buildInstructions = instructionBuilder.buildBeverageInstructionForDrinkMaker(customerOrder);
 
@@ -31,10 +34,32 @@ public class InstructionBuilderTest {
 
     @Test
     public void should_build_proper_instruction_with_sugar_stick() {
-        CustomerOrder customerOrder = new CustomerOrder(DrinkTypeEnum.TEA, 2);
+        CustomerOrder customerOrder = new CustomerOrder(
+                DrinkTypeEnum.TEA,
+                2,
+                DrinkTypeEnum.TEA.getPrice());
 
         String buildInstructions = instructionBuilder.buildBeverageInstructionForDrinkMaker(customerOrder);
 
         assertThat(buildInstructions).isEqualTo("T:2:0");
+    }
+
+    @Test
+    public void should_build_price_alert_message_without_enough_money() {
+        Double amountToSubtract = 0.2;
+        Double providedAmountOfMoney = DrinkTypeEnum.TEA.getPrice() - amountToSubtract;
+
+        CustomerOrder customerOrder = new CustomerOrder(
+                DrinkTypeEnum.TEA,
+                2,
+                providedAmountOfMoney);
+
+        String buildInstructions = instructionBuilder.buildBeverageInstructionForDrinkMaker(customerOrder);
+
+        String expectedAlertMessage = "You doesn't give enough money to buy your drink : "
+                .concat(amountToSubtract.toString())
+                .concat(" € is missing");
+
+        assertThat(buildInstructions).isEqualTo(expectedAlertMessage);
     }
 }

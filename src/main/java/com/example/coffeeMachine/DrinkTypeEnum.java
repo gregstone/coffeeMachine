@@ -1,17 +1,23 @@
 package com.example.coffeeMachine;
 
 public enum DrinkTypeEnum {
-    COFFEE("C"),
-    TEA("T"),
-    CHOCOLATE("H");
+    COFFEE("C", 0.6),
+    TEA("T", 0.4),
+    CHOCOLATE("H", 0.5);
 
     private String code;
+    private Double price;
 
-    DrinkTypeEnum(String code) {
+    DrinkTypeEnum(String code, Double price) {
         this.code = code;
+        this.price = price;
     }
 
     public String getCode() {
         return code;
+    }
+
+    public Double getPrice() {
+        return price;
     }
 }

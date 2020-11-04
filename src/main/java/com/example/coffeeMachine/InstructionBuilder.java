@@ -10,14 +10,26 @@ public class InstructionBuilder {
 
     public String buildBeverageInstructionForDrinkMaker(CustomerOrder customerOrder) {
 
-        String drinkInstruction = customerOrder.getDrinkType().getCode();
-        String sugarInstruction = buildSugarInstruction(customerOrder.getNumberOfSugar());
+        String beverageInstruction;
 
-        String beverageInstruction = drinkInstruction + sugarInstruction;
+        Double customerGivenMoneyAmount = customerOrder.getGivenMoney();
+        Double drinkPrice = customerOrder.getDrinkType().getPrice();
 
-        drinkMaker.makeDrink(beverageInstruction);
+        if (customerGivenMoneyAmount >= drinkPrice) {
+            String drinkInstruction = customerOrder.getDrinkType().getCode();
+            String sugarInstruction = buildSugarInstruction(customerOrder.getNumberOfSugar());
 
-        return beverageInstruction;
+            beverageInstruction = drinkInstruction + sugarInstruction;
+
+            drinkMaker.makeDrink(beverageInstruction);
+
+            return beverageInstruction;
+        }
+
+        String alertMessage = buildPriceAlertMessage(customerGivenMoneyAmount, drinkPrice);
+        drinkMaker.makeDrink(alertMessage);
+
+        return alertMessage;
 
     }
 
@@ -27,5 +39,12 @@ public class InstructionBuilder {
         String withoutSugarAndStick = "::";
 
         return isCustomerWantSugar ? addSugarAndStick : withoutSugarAndStick;
+    }
+
+    private String buildPriceAlertMessage(Double customerGivenMoneyAmount, Double drinkPrice ) {
+        double amountOfMoneyMissing = drinkPrice - customerGivenMoneyAmount;
+        return "You doesn't give enough money to buy your drink : "
+                .concat(Double.toString(amountOfMoneyMissing))
+                .concat(" € is missing");
     }
 }
