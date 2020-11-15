@@ -1,5 +1,9 @@
 package com.example.coffeeMachine;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public enum DrinkTypeEnum {
     COFFEE("C", 0.6),
     TEA("T", 0.4),
@@ -20,5 +24,13 @@ public enum DrinkTypeEnum {
 
     public Double getPrice() {
         return price;
+    }
+
+    private List<DrinkTypeEnum> nonHeatableDrink() {
+        return Collections.singletonList(DrinkTypeEnum.ORANGE_JUICE);
+    }
+
+    public boolean isHeatableDrink() {
+        return !nonHeatableDrink().contains(this);
     }
 }

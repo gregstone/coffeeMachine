@@ -78,4 +78,15 @@ public class InstructionBuilderTest {
 
         assertThat(buildInstructions).isEqualTo("Ch:2:0");
     }
+
+    @Test(expected = AssertionError.class)
+    public void should_failed_with_assertion_error_for_extra_hot_juice() {
+        CustomerOrder customerOrder = new CustomerOrder(
+                DrinkTypeEnum.ORANGE_JUICE,
+                0,
+                DrinkTypeEnum.ORANGE_JUICE.getPrice(),
+                true);
+
+        instructionBuilder.buildBeverageInstructionForDrinkMaker(customerOrder);
+    }
 }

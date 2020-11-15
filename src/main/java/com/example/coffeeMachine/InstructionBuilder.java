@@ -37,6 +37,9 @@ public class InstructionBuilder {
     }
 
     private String buildDrinkInstruction(DrinkTypeEnum drinkType, Boolean isExtraHot) {
+        if (isExtraHot && !drinkType.isHeatableDrink()) {
+            throw new AssertionError("The provided drink cannot be extra hot");
+        }
         return drinkType.getCode().concat(isExtraHot ? "h": "");
     }
 
